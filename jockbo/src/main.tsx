@@ -2,11 +2,33 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Root from './routes/Root';
+import ErrorPage from './pages/ErrorPage';
+import SearchPage from './pages/SearchPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div />,
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/search',
+        element: <SearchPage />,
+      },
+      // {
+      //   path: 'search/:userId',
+      //   element: <SearchPage />,
+      // },
+      // {
+      //   path: 'search/:userId',
+      //   element: <SearchPage />,
+      // },
+      // {
+      //   path: 'search/:userId',
+      //   element: <SearchPage />,
+      // },
+    ],
   },
 ]);
 

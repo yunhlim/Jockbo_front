@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+
 export default function Root() {
   return (
     <>
@@ -12,15 +15,8 @@ export default function Root() {
               type="search"
               name="q"
             />
-            <div
-              id="search-spinner"
-              aria-hidden
-              hidden={true}
-            />
-            <div
-              className="sr-only"
-              aria-live="polite"
-            ></div>
+            <div id="search-spinner" aria-hidden hidden={true} />
+            <div className="sr-only" aria-live="polite"></div>
           </form>
           <form method="post">
             <button type="submit">New</button>
@@ -29,15 +25,17 @@ export default function Root() {
         <nav>
           <ul>
             <li>
-              <a href={`contacts/1`}>Your Name</a>
+              <Link to={`search/`}>검색 페이지</Link>
             </li>
             <li>
-              <a href={`contacts/2`}>Your Friend</a>
+              <Link to={`search/`}>검색 페이지</Link>
             </li>
           </ul>
         </nav>
       </div>
-      <div id="detail"></div>
+      <div id="detail">
+        <Outlet />
+      </div>
     </>
   );
 }

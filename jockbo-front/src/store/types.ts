@@ -8,5 +8,5 @@ export interface JockBoItemInfo {
 export interface JockBoLineStyle {
   top: number;
   left: number;
-  width: number;
+  width?: number;
 }

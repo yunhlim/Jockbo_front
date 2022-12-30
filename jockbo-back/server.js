@@ -17,6 +17,109 @@ MongoClient.connect(
     });
   }
 );
+///for dummy sending--------
+
+
+const dummydata = [
+  {
+    _id: 1,
+    mySae: 1,
+    myName: '이병철',
+    children: [
+      {
+        _id: 2,
+        mySae: 2,
+        myName: '이맹희',
+        children: [
+          {
+            _id: 8,
+            mySae: 3,
+            myName: '이미경',
+          },
+          {
+            _id: 9,
+            mySae: 3,
+            myName: '이재현',
+          },
+        ],
+      },
+      {
+        _id: 3,
+        mySae: 2,
+        myName: '이창희',
+      },
+      {
+        _id: 4,
+        mySae: 2,
+        myName: '이건희',
+        children: [
+          {
+            _id: 10,
+            mySae: 3,
+            myName: '이재용',
+          },
+          {
+            _id: 11,
+            mySae: 3,
+            myName: '이부진',
+          },
+          {
+            _id: 12,
+            mySae: 3,
+            myName: '이서현',
+          },
+        ],
+      },
+      {
+        _id: 5,
+        mySae: 2,
+        myName: '이인희',
+        children: [
+          {
+            _id: 13,
+            mySae: 3,
+            myName: '조동혁',
+          },
+          {
+            _id: 14,
+            mySae: 3,
+            myName: '조동만',
+          },
+          {
+            _id: 15,
+            mySae: 3,
+            myName: '조동길',
+          },
+        ],
+      },
+      {
+        _id: 6,
+        mySae: 2,
+        myName: '이숙희',
+      },
+      {
+        _id: 7,
+        mySae: 2,
+        myName: '이명희',
+        children: [
+          {
+            _id: 16,
+            mySae: 3,
+            myName: '정용진',
+          },
+          {
+            _id: 17,
+            mySae: 3,
+            myName: '정유경',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+
+///--------------------------
 
 app.set("view engine", "ejs");
 
@@ -53,5 +156,13 @@ app.get("/list", function (r, a) {
     .toArray(function (e, r) {
       console.log(r);
       a.send(r);
+    });
+});
+app.get("/all", function (r, a) {
+  db.collection("post")
+    .find()
+    .toArray(function (e, r) {
+      console.log(dummydata);
+      a.send(dummydata);
     });
 });

@@ -4,3 +4,9 @@ export interface JockBoItemInfo {
   myName: string;
   children: JockBoItemInfo[];
 }
+
+export interface JockBoLineStyle {
+  top: number;
+  left: number;
+  width: number;
+}

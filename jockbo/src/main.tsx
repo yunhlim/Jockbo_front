@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Root from './routes/Root';
 import ErrorPage from './pages/ErrorPage';
 import SearchPage from './pages/SearchPage';
+import TotalPage from './pages/TotalPage';
 
 const router = createBrowserRouter([
   {
@@ -16,10 +17,10 @@ const router = createBrowserRouter([
         path: '/search',
         element: <SearchPage />,
       },
-      // {
-      //   path: 'search/:userId',
-      //   element: <SearchPage />,
-      // },
+      {
+        path: '/total',
+        element: <TotalPage />,
+      },
       // {
       //   path: 'search/:userId',
       //   element: <SearchPage />,

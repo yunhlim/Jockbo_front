@@ -28,7 +28,7 @@ export default function Root() {
               <Link to={`search/`}>검색 페이지</Link>
             </li>
             <li>
-              <Link to={`search/`}>검색 페이지</Link>
+              <Link to={`total/`}>전체 페이지</Link>
             </li>
           </ul>
         </nav>

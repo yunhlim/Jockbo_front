@@ -1,6 +1,8 @@
 export interface JockBoItemInfo {
-  _id: number;
-  mySae: number;
+  _id: string;
+  mySae: string;
   myName: string;
+  myNamechi: string;
+  ancUID: string | null;
   children: JockBoItemInfo[];
 }

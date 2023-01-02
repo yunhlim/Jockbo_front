@@ -6,7 +6,7 @@ import Xarrow, { Xwrapper } from 'react-xarrows';
 import _ from 'lodash';
 
 interface props {
-  jockBos: JockBoItemInfo[];
+  totalJockBo: JockBoItemInfo[];
 }
 
 const margin = 0.3;
@@ -24,17 +24,17 @@ const SaeItem = styled(JockBoItem)`
   width: 3rem;
 `;
 
-export default function JockBoList({ jockBos }: props) {
+export default function JockBoList({ totalJockBo }: props) {
   // 세의 시작과 끝 값
-  const [saeStartValue, setSaeStartValue] = useState(0);
-  const [saeLastValue, setSaeLastValue] = useState(0);
+  const [saeStartValue, setSaeStartValue] = useState<number>(0);
+  const [saeLastValue, setSaeLastValue] = useState<number>(0);
 
   const [JockBoComponent, setJockBoComponent] = useState(<div></div>);
 
   // 족보 생성은 한 번만 되도록
   useEffect(() => {
     setJockBoComponent(
-      <Xwrapper>{JockBoTreeRecur(0, jockBos, '-1')}</Xwrapper>,
+      <Xwrapper>{JockBoTreeRecur(0, totalJockBo, '-1')}</Xwrapper>,
     );
   }, []);
 
@@ -47,9 +47,9 @@ export default function JockBoList({ jockBos }: props) {
 
       // 세 시작과 끝 값 찾기(표의 왼쪽 칼럼을 정의하기 위함)
       if (cur === 0) {
-        setSaeStartValue(items[0].mySae);
-      } else if (saeLastValue < items[0].mySae) {
-        setSaeLastValue(items[0].mySae);
+        setSaeStartValue(Number(items[0].mySae));
+      } else if (saeLastValue < Number(items[0].mySae)) {
+        setSaeLastValue(Number(items[0].mySae));
       }
 
       return (

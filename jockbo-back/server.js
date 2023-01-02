@@ -35,11 +35,13 @@ const dummydata = [
             _id: 8,
             mySae: 3,
             myName: '이미경',
+            children: [],
           },
           {
             _id: 9,
             mySae: 3,
             myName: '이재현',
+            children: [],
           },
         ],
       },
@@ -47,6 +49,7 @@ const dummydata = [
         _id: 3,
         mySae: 2,
         myName: '이창희',
+        children: [],
       },
       {
         _id: 4,
@@ -57,16 +60,19 @@ const dummydata = [
             _id: 10,
             mySae: 3,
             myName: '이재용',
+            children: [],
           },
           {
             _id: 11,
             mySae: 3,
             myName: '이부진',
+            children: [],
           },
           {
             _id: 12,
             mySae: 3,
             myName: '이서현',
+            children: [],
           },
         ],
       },
@@ -79,16 +85,19 @@ const dummydata = [
             _id: 13,
             mySae: 3,
             myName: '조동혁',
+            children: [],
           },
           {
             _id: 14,
             mySae: 3,
             myName: '조동만',
+            children: [],
           },
           {
             _id: 15,
             mySae: 3,
             myName: '조동길',
+            children: [],
           },
         ],
       },
@@ -96,6 +105,7 @@ const dummydata = [
         _id: 6,
         mySae: 2,
         myName: '이숙희',
+        children: [],
       },
       {
         _id: 7,
@@ -106,11 +116,13 @@ const dummydata = [
             _id: 16,
             mySae: 3,
             myName: '정용진',
+            children: [],
           },
           {
             _id: 17,
             mySae: 3,
             myName: '정유경',
+            children: [],
           },
         ],
       },
@@ -158,11 +170,70 @@ app.get("/list", function (r, a) {
       a.send(r);
     });
 });
-app.get("/all", function (r, a) {
+app.get("/all", function (req, ans) {
+  db.collection("post")
+    .find()
+    .toArray(function (e, r) {
+      var oriArray = r;
+      var upgArray = [];
+      var maxSae = 0;
+      var minSae = 9999;
+      for (var a in oriArray) {
+        var b = {
+          _id: oriArray[a]._id,
+          ancUID: oriArray[a].ancUID,
+          mySae: oriArray[a].mySae,
+          myName: oriArray[a].myName,
+          myNamechi: oriArray[a].myNamechi,
+          children: [],
+        }
+        upgArray.push(b) //업글배열 만들기
+        if (maxSae < oriArray[a].mySae)//최대세와 최소세 구하기
+        {
+          maxSae = oriArray[a].mySae
+        }
+        if (minSae > oriArray[a].mySae) {
+          minSae = oriArray[a].mySae
+        }
+      }
+
+      var len = upgArray.length;
+      //--------
+      for (var tmp = maxSae; tmp >= minSae; tmp--) {//기능 : upgArray의 해당 세의 얘들을 찾아서 자기네들 조상의 child 배열에 push 한 후 , 해당 애들을 제거한다.
+        console.log(tmp + " 세에 대한 작업=============");//마지막세부터 직속 조상에 넣어줌 2023-01-01 slu Park
+        for (i = 0; i < len; i++) {
+          if (upgArray[i].mySae == tmp) {
+            console.log(upgArray[i].myName + " 님이 " + tmp + " 세로 판명되어 작업 들어갑니다.");
+            for (j in upgArray) {
+              if (upgArray[j]._id == upgArray[i].ancUID) {
+                upgArray[j].children.push(upgArray[i]);
+                upgArray.splice(i, 1);
+                len -= 1;
+                i -= 1;
+                break;
+              }
+
+            }
+          }
+        }
+      }
+      //--------
+      ans.send(upgArray);
+    });
+});
+app.get("/alldummy", function (r, a) {
   db.collection("post")
     .find()
     .toArray(function (e, r) {
       console.log(dummydata);
       a.send(dummydata);
+    });
+});
+app.get("/search", function (r, a) {
+  db.collection("post")
+    .find()
+    .toArray(function (e, r) {
+      console.log(r);
+      a.send(r);
     });
 });

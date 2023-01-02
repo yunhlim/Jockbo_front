@@ -13,7 +13,7 @@ export default function TotalPage() {
 
   return (
     <div>
-      <h3>족보 보기</h3>
+      <h3>전체 족보</h3>
       {totalJockBo.length > 0 && <JockBoList totalJockBo={totalJockBo} />}
     </div>
   );

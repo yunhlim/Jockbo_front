@@ -4,27 +4,29 @@ import { JockBoItemInfo } from '../store/types';
 import styled from 'styled-components';
 import Xarrow, { Xwrapper } from 'react-xarrows';
 import _ from 'lodash';
+import CustomContainer from './CustomContainer';
 
-interface props {
+interface Props {
   totalJockBo: JockBoItemInfo[];
 }
 
-const margin = 0.3;
-
 const JockBoItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 5rem;
   height: 2rem;
   background: black;
-  text-align: center;
-  margin: ${margin}rem;
-  align-items: center;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  color: white;
 `;
 
 const SaeItem = styled(JockBoItem)`
   width: 3rem;
 `;
 
-export default function JockBoList({ totalJockBo }: props) {
+export default function JockBoList({ totalJockBo }: Props) {
   // 세의 시작과 끝 값
   const [saeStartValue, setSaeStartValue] = useState<number>(0);
   const [saeLastValue, setSaeLastValue] = useState<number>(0);
@@ -59,7 +61,9 @@ export default function JockBoList({ totalJockBo }: props) {
             newSibling = `${item._id}`;
             return (
               <Stack key={item._id}>
-                <JockBoItem id={`${item._id}`}>{item.myName}</JockBoItem>
+                <JockBoItem id={`${item._id}`}>
+                  {item.myName} {item.myNamechi}
+                </JockBoItem>
                 {item.children.length > 0 &&
                   JockBoTreeRecur(cur + 1, item.children, `${item._id}`)}
                 {/* 형제 사이 연결 */}
@@ -68,6 +72,7 @@ export default function JockBoList({ totalJockBo }: props) {
                     showHead={false}
                     start={`${item._id}`}
                     end={sibling}
+                    lineColor={'black'}
                   />
                 )}
               </Stack>
@@ -75,7 +80,12 @@ export default function JockBoList({ totalJockBo }: props) {
           })}
           {/* 자식 관계 라인 연결 */}
           {cur > 0 && (
-            <Xarrow showHead={false} start={`${items[0]._id}`} end={prv} />
+            <Xarrow
+              showHead={false}
+              start={`${items[0]._id}`}
+              end={prv}
+              lineColor={'black'}
+            />
           )}
           <div />
         </Stack>
@@ -85,15 +95,15 @@ export default function JockBoList({ totalJockBo }: props) {
   );
 
   return (
-    <div>
+    <CustomContainer>
       <Stack direction="row">
         <Stack>
           {_.range(saeStartValue, saeLastValue + 1).map((sae) => {
-            return <SaeItem key={sae}>{sae}세</SaeItem>;
+            return <SaeItem key={sae}>{sae} 世</SaeItem>;
           })}
         </Stack>
         {JockBoComponent}
       </Stack>
-    </div>
+    </CustomContainer>
   );
 }

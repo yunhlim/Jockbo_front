@@ -1,3 +1,10 @@
+import CustomContainer from '../components/CustomContainer';
+import SearchList from '../components/SearchList';
+
 export default function SearchPage() {
-  return <div></div>;
+  return (
+    <CustomContainer>
+      <SearchList />
+    </CustomContainer>
+  );
 }

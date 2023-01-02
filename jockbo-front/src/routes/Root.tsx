@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+import SearchForm from '../components/SearchForm';
 import NavBar from './NavBar';
 
 export default function Root() {
@@ -10,6 +11,7 @@ export default function Root() {
           <NavBar />
         </nav>
       </div>
+      <SearchForm />
       <div id="detail">
         <Outlet />
       </div>

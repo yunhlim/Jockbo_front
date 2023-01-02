@@ -122,7 +122,7 @@ export default function TotalPage() {
   return (
     <div>
       <h3>족보 보기</h3>
-      <JockBoList items={data} />
+      <JockBoList jockBos={data} />
     </div>
   );
 }

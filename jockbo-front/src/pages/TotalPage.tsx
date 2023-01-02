@@ -13,7 +13,7 @@ export default function TotalPage() {
     {
       _id: 1,
       mySae: 1,
-      myName: '이병철',
+      myName: '이병',
       children: [
         {
           _id: 2,

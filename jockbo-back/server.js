@@ -102,23 +102,74 @@ app.get("/all", function (req, ans) {
           }
         }
       }
-      //--------
+      //--------c
       ans.send(upgArray);
     });
 });
 
 
 app.get("/search", function (r, a) {
-  console.log(r.query)
-  if(r.fatherName||r.grandpaName){
+  if (r.fatherName || r.grandpaName) {
     a.send("조부 및 부 검색 기능 점검중")
+    return;
   }
-  console.log(r.query.mySae);
   db.collection("post")
     .find(r.query)
-    .toArray(function (e, r) {
-      console.log(r);
+    .toArray(async function (e, dbanswer) {
+      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.log(dbanswer)
+      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+      var updarray = [];
+
+      for (i in dbanswer) {
+        console.log(i+"회 반복");
+        var ufo;
+        var ugo;
+        await db.collection("post").find({ _id: dbanswer[i].ancUID }).toArray(async function (e, r) {
+          ufo = r[0];
+          console.log("중간디비조회끝")
+          await db.collection("post").find({ _id: ufo.ancUID }).toArray(async function (e, r) {
+            console.log("내부디비조회끝")
+            ugo = r[0];
+            var uf = {
+              _id: ufo._id,
+              myName: ufo.myName,
+              myNamechi: ufo.myNamechi
+            }
+    
+            var ug = {
+              _id: ugo._id,
+              myName: ugo.myName,
+              myNamechi: ugo.myNamechi
+            }
+    
+            var u = {
+              _id: dbanswer[i]._id,
+              mySae: dbanswer[i].mySae,
+              myName: dbanswer[i].myName,
+              myNamechi: dbanswer[i].myNamechi,
+              father: uf,
+              grandPa: ug,
+            }
+            updarray.push(u);
+            console.log(i+"회 차의 u 값은");
+            console.log(u);
+          });
+        });
+        console.log(i+"회 반복 끝!");
+      }
+      console.log("#")
+      console.log(updarray);
+      
       a.send("검색 API 입니다.");
+
     });
 });
 
+
+
+[{
+  _id: "~", mySae: "~", myName: "~", myNamechi: "~", father: { _id: "~", myName: "~", myNamechi: "~" },
+  grandPa: { _id: "~", myName: "~", myNamechi: "~" }
+}];

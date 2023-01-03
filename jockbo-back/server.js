@@ -71,24 +71,30 @@ app.get("/all", function (req, ans) {
           myName: oriArray[a].myName,
           myNamechi: oriArray[a].myNamechi,
           children: [],
-        }
-        upgArray.push(b) //업글배열 만들기
-        if (maxSae < oriArray[a].mySae)//최대세와 최소세 구하기
-        {
-          maxSae = oriArray[a].mySae
+        };
+        upgArray.push(b); //업글배열 만들기
+        if (maxSae < oriArray[a].mySae) {
+          //최대세와 최소세 구하기
+          maxSae = oriArray[a].mySae;
         }
         if (minSae > oriArray[a].mySae) {
-          minSae = oriArray[a].mySae
+          minSae = oriArray[a].mySae;
         }
       }
 
       var len = upgArray.length;
       //--------
-      for (var tmp = maxSae; tmp >= minSae; tmp--) {//기능 : upgArray의 해당 세의 얘들을 찾아서 자기네들 조상의 child 배열에 push 한 후 , 해당 애들을 제거한다.
-        console.log(tmp + " 세에 대한 작업=============");//마지막세부터 직속 조상에 넣어줌 2023-01-01 slu Park
+      for (var tmp = maxSae; tmp >= minSae; tmp--) {
+        //기능 : upgArray의 해당 세의 얘들을 찾아서 자기네들 조상의 child 배열에 push 한 후 , 해당 애들을 제거한다.
+        console.log(tmp + " 세에 대한 작업============="); //마지막세부터 직속 조상에 넣어줌 2023-01-01 slu Park
         for (i = 0; i < len; i++) {
           if (upgArray[i].mySae == tmp) {
-            console.log(upgArray[i].myName + " 님이 " + tmp + " 세로 판명되어 작업 들어갑니다.");
+            console.log(
+              upgArray[i].myName +
+                " 님이 " +
+                tmp +
+                " 세로 판명되어 작업 들어갑니다."
+            );
             for (j in upgArray) {
               if (upgArray[j]._id == upgArray[i].ancUID) {
                 upgArray[j].children.push(upgArray[i]);
@@ -97,7 +103,6 @@ app.get("/all", function (req, ans) {
                 i -= 1;
                 break;
               }
-
             }
           }
         }
@@ -107,69 +112,75 @@ app.get("/all", function (req, ans) {
     });
 });
 
-
-app.get("/search", function (r, a) {
+app.get("/search", async function (r, a) {
   if (r.fatherName || r.grandpaName) {
-    a.send("조부 및 부 검색 기능 점검중")
+    a.send("조부 및 부 검색 기능 점검중");
     return;
   }
   db.collection("post")
     .find(r.query)
-    .toArray(async function (e, dbanswer) {
-      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-      console.log(dbanswer)
-      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    .toArray(async (e, dbanswer) => {
+      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      console.log(dbanswer);
+      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 
       var updarray = [];
 
       for (i in dbanswer) {
-        console.log(i+"회 반복");
+        console.log(i + "회 반복");
         var ufo;
         var ugo;
-        await db.collection("post").find({ _id: dbanswer[i].ancUID }).toArray(async function (e, r) {
-          ufo = r[0];
-          console.log("중간디비조회끝")
-          await db.collection("post").find({ _id: ufo.ancUID }).toArray(async function (e, r) {
-            console.log("내부디비조회끝")
-            ugo = r[0];
-            var uf = {
-              _id: ufo._id,
-              myName: ufo.myName,
-              myNamechi: ufo.myNamechi
-            }
-    
-            var ug = {
-              _id: ugo._id,
-              myName: ugo.myName,
-              myNamechi: ugo.myNamechi
-            }
-    
-            var u = {
-              _id: dbanswer[i]._id,
-              mySae: dbanswer[i].mySae,
-              myName: dbanswer[i].myName,
-              myNamechi: dbanswer[i].myNamechi,
-              father: uf,
-              grandPa: ug,
-            }
-            updarray.push(u);
-            console.log(i+"회 차의 u 값은");
-            console.log(u);
-          });
-        });
-        console.log(i+"회 반복 끝!");
-      }
-      console.log("#")
-      console.log(updarray);
-      
-      a.send("검색 API 입니다.");
+        const r = await db
+          .collection("post")
+          .find({ _id: dbanswer[i].ancUID })
+          .toArray();
+        ufo = r[0];
+        console.log("중간디비조회끝");
+        const r2 = await db
+          .collection("post")
+          .find({ _id: ufo.ancUID })
+          .toArray();
+        console.log("내부디비조회끝");
+        ugo = r2[0];
+        var uf = {
+          _id: ufo._id,
+          myName: ufo.myName,
+          myNamechi: ufo.myNamechi,
+        };
 
+        var ug = {
+          _id: ugo._id,
+          myName: ugo.myName,
+          myNamechi: ugo.myNamechi,
+        };
+
+        var u = {
+          _id: dbanswer[i]._id,
+          mySae: dbanswer[i].mySae,
+          myName: dbanswer[i].myName,
+          myNamechi: dbanswer[i].myNamechi,
+          father: uf,
+          grandPa: ug,
+        };
+        updarray.push(u);
+        console.log(i + "회 차의 u 값은");
+        console.log(u);
+        console.log(i + "회 반복 끝!");
+      }
+      console.log("#");
+      console.log(updarray);
+
+      a.send("검색 API 입니다.");
     });
 });
 
-
-
-[{
-  _id: "~", mySae: "~", myName: "~", myNamechi: "~", father: { _id: "~", myName: "~", myNamechi: "~" },
-  grandPa: { _id: "~", myName: "~", myNamechi: "~" }
-}];
+[
+  {
+    _id: "~",
+    mySae: "~",
+    myName: "~",
+    myNamechi: "~",
+    father: { _id: "~", myName: "~", myNamechi: "~" },
+    grandPa: { _id: "~", myName: "~", myNamechi: "~" },
+  },
+];

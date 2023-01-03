@@ -34,8 +34,12 @@ export default function SearchList({ searchItems }: Props) {
                 {searchItem.myName} ({searchItem.myNamechi})
               </TableCell>
               <TableCell align="right">{searchItem.mySae}</TableCell>
-              <TableCell align="right">{searchItem.ancUID}</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="right">
+                {searchItem.father.myName} ({searchItem.father.myNamechi})
+              </TableCell>
+              <TableCell align="right">
+                {searchItem.father.myName} ({searchItem.grandPa.myNamechi})
+              </TableCell>
               <TableCell align="right"></TableCell>
             </TableRow>
           ))}

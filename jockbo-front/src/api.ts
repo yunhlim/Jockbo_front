@@ -18,9 +18,9 @@ export const jockBoListFetchApi = async () => {
   return response.data;
 };
 
-export const jockBoSearchFetchApi = async () => {
+export const jockBoSearchFetchApi = async (query: string) => {
   const response = await axios({
-    url: `${baseUrl}/search`,
+    url: `${baseUrl}/search${query}`,
     method: 'GET',
   });
   return response.data;

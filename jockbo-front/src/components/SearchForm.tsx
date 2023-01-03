@@ -19,8 +19,13 @@ export default function SearchForm() {
 
   const onChangeText = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    textType: string,
+    textType: keyof searchDataInfo,
   ) => {
+    if (event.target.value === '' && textType in searchData) {
+      const { [textType]: currentType, ...otherTestTypes } = searchData;
+      setSearchData(otherTestTypes);
+      return;
+    }
     switch (textType) {
       case 'myName':
         setSearchData((prv) => ({ ...prv, myName: event.target.value }));
@@ -40,7 +45,7 @@ export default function SearchForm() {
   };
 
   const searchHandler = () => {
-    if (Object.keys(searchData).length > 0) {
+    if (Object.values(searchData).length > 0) {
       navigate({
         pathname: '/search',
         search: `?${createSearchParams(searchData)}`,

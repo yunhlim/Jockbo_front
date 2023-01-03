@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { totalJockBoFetchApi } from '../api';
 import CustomContainer from '../components/CustomContainer';
 import JockBoList from '../components/JockBoList';
-import { JockBoItemInfo } from '../store/types';
+import { JockBoTreeItemInfo } from '../store/types';
 
 export default function TotalPage() {
-  const [totalJockBo, setTotalJockBo] = useState<JockBoItemInfo[]>([]);
+  const [totalJockBo, setTotalJockBo] = useState<JockBoTreeItemInfo[]>([]);
   useEffect(() => {
     totalJockBoFetchApi().then((res) => {
       setTotalJockBo(res);

@@ -1,13 +1,13 @@
 import { Stack } from '@mui/material';
 import { useState, useCallback, useEffect } from 'react';
-import { JockBoItemInfo } from '../store/types';
+import { JockBoTreeItemInfo } from '../store/types';
 import styled from 'styled-components';
 import Xarrow, { Xwrapper } from 'react-xarrows';
 import _ from 'lodash';
 import CustomContainer from './CustomContainer';
 
 interface Props {
-  totalJockBo: JockBoItemInfo[];
+  totalJockBo: JockBoTreeItemInfo[];
 }
 
 const JockBoItem = styled.div`
@@ -42,7 +42,7 @@ export default function JockBoList({ totalJockBo }: Props) {
 
   // 족보 생성
   const JockBoTreeRecur = useCallback(
-    (cur: number, items: JockBoItemInfo[], prv: string) => {
+    (cur: number, items: JockBoTreeItemInfo[], prv: string) => {
       // 이전 형제 정보 저장
       let sibling = '-1';
       let newSibling = '-1';

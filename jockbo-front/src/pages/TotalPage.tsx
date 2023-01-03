@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { totalJockBoFetchApi } from '../api';
+import CustomContainer from '../components/CustomContainer';
 import JockBoList from '../components/JockBoList';
 import { JockBoItemInfo } from '../store/types';
 
@@ -12,9 +13,9 @@ export default function TotalPage() {
   }, []);
 
   return (
-    <div>
+    <CustomContainer>
       <h3>전체 족보</h3>
       {totalJockBo.length > 0 && <JockBoList totalJockBo={totalJockBo} />}
-    </div>
+    </CustomContainer>
   );
 }

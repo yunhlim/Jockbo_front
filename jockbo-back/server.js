@@ -170,7 +170,7 @@ app.get("/search", async function (r, a) {
       console.log("#");
       console.log(updarray);
 
-      a.send("검색 API 입니다.");
+      a.send(updarray);
     });
 });
 

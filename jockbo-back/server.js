@@ -17,121 +17,6 @@ MongoClient.connect(
     });
   }
 );
-///for dummy sending--------
-
-
-const dummydata = [
-  {
-    _id: 1,
-    mySae: 1,
-    myName: '이병철',
-    children: [
-      {
-        _id: 2,
-        mySae: 2,
-        myName: '이맹희',
-        children: [
-          {
-            _id: 8,
-            mySae: 3,
-            myName: '이미경',
-            children: [],
-          },
-          {
-            _id: 9,
-            mySae: 3,
-            myName: '이재현',
-            children: [],
-          },
-        ],
-      },
-      {
-        _id: 3,
-        mySae: 2,
-        myName: '이창희',
-        children: [],
-      },
-      {
-        _id: 4,
-        mySae: 2,
-        myName: '이건희',
-        children: [
-          {
-            _id: 10,
-            mySae: 3,
-            myName: '이재용',
-            children: [],
-          },
-          {
-            _id: 11,
-            mySae: 3,
-            myName: '이부진',
-            children: [],
-          },
-          {
-            _id: 12,
-            mySae: 3,
-            myName: '이서현',
-            children: [],
-          },
-        ],
-      },
-      {
-        _id: 5,
-        mySae: 2,
-        myName: '이인희',
-        children: [
-          {
-            _id: 13,
-            mySae: 3,
-            myName: '조동혁',
-            children: [],
-          },
-          {
-            _id: 14,
-            mySae: 3,
-            myName: '조동만',
-            children: [],
-          },
-          {
-            _id: 15,
-            mySae: 3,
-            myName: '조동길',
-            children: [],
-          },
-        ],
-      },
-      {
-        _id: 6,
-        mySae: 2,
-        myName: '이숙희',
-        children: [],
-      },
-      {
-        _id: 7,
-        mySae: 2,
-        myName: '이명희',
-        children: [
-          {
-            _id: 16,
-            mySae: 3,
-            myName: '정용진',
-            children: [],
-          },
-          {
-            _id: 17,
-            mySae: 3,
-            myName: '정유경',
-            children: [],
-          },
-        ],
-      },
-    ],
-  },
-];
-
-
-///--------------------------
 
 app.set("view engine", "ejs");
 
@@ -221,19 +106,19 @@ app.get("/all", function (req, ans) {
       ans.send(upgArray);
     });
 });
-app.get("/alldummy", function (r, a) {
-  db.collection("post")
-    .find()
-    .toArray(function (e, r) {
-      console.log(dummydata);
-      a.send(dummydata);
-    });
-});
+
+
 app.get("/search", function (r, a) {
+  console.log(r.query)
+  if(r.fatherName||r.grandpaName){
+    a.send("조부 및 부 검색 기능 점검중")
+  }
+  console.log(r.query.mySae);
   db.collection("post")
-    .find()
+    .find(r.query)
     .toArray(function (e, r) {
       console.log(r);
-      a.send(r);
+      a.send("검색 API 입니다.");
     });
 });
+

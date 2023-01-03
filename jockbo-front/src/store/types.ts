@@ -4,5 +4,5 @@ export interface JockBoItemInfo {
   myName: string;
   myNamechi: string;
   ancUID: string | null;
-  children: JockBoItemInfo[];
+  children?: JockBoItemInfo[];
 }

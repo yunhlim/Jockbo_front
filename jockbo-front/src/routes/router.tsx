@@ -33,14 +33,6 @@ export const router = createBrowserRouter([
         path: '/admin',
         element: <AdminPage />,
       },
-      // {
-      //   path: 'search/:userId',
-      //   element: <SearchPage />,
-      // },
-      // {
-      //   path: 'search/:userId',
-      //   element: <SearchPage />,
-      // },
     ],
   },
 ]);

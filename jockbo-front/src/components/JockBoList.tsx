@@ -64,8 +64,8 @@ export default function JockBoList({ totalJockBo }: Props) {
                 <JockBoItem id={`${item._id}`}>
                   {item.myName} {item.myNamechi}
                 </JockBoItem>
-                {item.children.length > 0 &&
-                  JockBoTreeRecur(cur + 1, item.children, `${item._id}`)}
+                {item.children!.length > 0 &&
+                  JockBoTreeRecur(cur + 1, item.children!, `${item._id}`)}
                 {/* 형제 사이 연결 */}
                 {idx > 0 && (
                   <Xarrow

@@ -1,9 +1,13 @@
-import { Container } from '@mui/material';
+import styled from 'styled-components';
 
 interface Props {
   children: React.ReactNode;
 }
 
+const ContainerWrap = styled.div`
+  margin: 2rem;
+`;
+
 export default function CustomContainer({ children }: Props) {
-  return <Container fixed>{children}</Container>;
+  return <ContainerWrap>{children}</ContainerWrap>;
 }

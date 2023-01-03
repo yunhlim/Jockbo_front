@@ -5,7 +5,6 @@ import SearchPage from '../pages/SearchPage';
 import TotalPage from '../pages/TotalPage';
 import AboutPage from '../pages/AboutPage';
 import ApplyPage from '../pages/ApplyPage';
-import AdminPage from '../pages/AdminPage';
 
 export const router = createBrowserRouter([
   {
@@ -28,10 +27,6 @@ export const router = createBrowserRouter([
       {
         path: '/apply',
         element: <ApplyPage />,
-      },
-      {
-        path: '/admin',
-        element: <AdminPage />,
       },
     ],
   },

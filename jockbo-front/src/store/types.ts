@@ -6,3 +6,10 @@ export interface JockBoItemInfo {
   ancUID: string | null;
   children?: JockBoItemInfo[];
 }
+
+export type searchDataInfo = {
+  myName?: string;
+  mySae?: string;
+  fatherName?: string;
+  grandPaName?: string;
+};

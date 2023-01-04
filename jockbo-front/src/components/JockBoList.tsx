@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { JockBoTreeItemInfo } from '../store/types';
 import styled from 'styled-components';
 import Xarrow, { Xwrapper } from 'react-xarrows';
@@ -94,7 +94,12 @@ export default function JockBoList({ jockBo }: Props) {
 
   return (
     <CustomContainer>
-      <Stack direction="row">
+      <Stack
+        direction="row"
+        width={500}
+        overflow={'scroll'}
+        position={'relative'}
+      >
         <Stack>
           {_.range(saeStartValue, saeLastValue + 1).map((sae) => {
             return <SaeItem key={sae}>{sae} 世</SaeItem>;

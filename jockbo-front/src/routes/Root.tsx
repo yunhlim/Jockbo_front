@@ -6,7 +6,7 @@ export default function Root() {
   return (
     <>
       <div id="sidebar">
-        <h1 style={{ display: 'inline' }}>온라인 족보</h1>
+        <h1 style={{ display: 'inline' }}>안동장씨 온라인 족보</h1>
         <nav>
           <NavBar />
         </nav>

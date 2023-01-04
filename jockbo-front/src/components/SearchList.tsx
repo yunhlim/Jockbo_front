@@ -10,8 +10,8 @@ import { JockBoItemInfo } from '../store/types';
 interface Props {
   searchItems: JockBoItemInfo[];
 }
-
 export default function SearchList({ searchItems }: Props) {
+  console.log(searchItems);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

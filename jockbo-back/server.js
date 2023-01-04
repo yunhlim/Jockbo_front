@@ -119,28 +119,26 @@ app.get("/search", async function (r, a) {
   }
   db.collection("post")
     .find(r.query)
-    .toArray(async (e, dbanswer) => {
+    .toArray(async (e, items) => {
       console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      console.log(dbanswer);
-      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      console.log(items);
 
       var updarray = [];
 
-      for (i in dbanswer) {
-        console.log(i + "회 반복");
+      for (let item of items) {
         var ufo;
         var ugo;
         const r = await db
           .collection("post")
-          .find({ _id: dbanswer[i].ancUID })
+          .find({ _id: item.ancUID })
           .toArray();
         ufo = r[0];
-        console.log("중간디비조회끝");
+
         const r2 = await db
           .collection("post")
           .find({ _id: ufo.ancUID })
           .toArray();
-        console.log("내부디비조회끝");
+
         ugo = r2[0];
         var uf = {
           _id: ufo._id,
@@ -155,21 +153,19 @@ app.get("/search", async function (r, a) {
         };
 
         var u = {
-          _id: dbanswer[i]._id,
-          mySae: dbanswer[i].mySae,
-          myName: dbanswer[i].myName,
-          myNamechi: dbanswer[i].myNamechi,
+          _id: item._id,
+          mySae: item.mySae,
+          myName: item.myName,
+          myNamechi: item.myNamechi,
           father: uf,
           grandPa: ug,
         };
         updarray.push(u);
-        console.log(i + "회 차의 u 값은");
-        console.log(u);
-        console.log(i + "회 반복 끝!");
       }
       console.log("#");
       console.log(updarray);
 
+      // 전송
       a.send(updarray);
     });
 });

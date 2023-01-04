@@ -77,6 +77,12 @@ export default function SearchForm() {
           value={searchData.mySae || ''}
           onChange={(e) => onChangeText(e, 'mySae')}
         />
+      </TextFieldsWrapper>
+      <TextFieldsWrapper
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+      >
         <TextField
           label="부 이름"
           variant="standard"

@@ -7,7 +7,7 @@ import _ from 'lodash';
 import CustomContainer from './CustomContainer';
 
 interface Props {
-  totalJockBo: JockBoTreeItemInfo[];
+  jockBo: JockBoTreeItemInfo[];
 }
 
 const JockBoItem = styled.div`
@@ -26,7 +26,7 @@ const SaeItem = styled(JockBoItem)`
   width: 3rem;
 `;
 
-export default function JockBoList({ totalJockBo }: Props) {
+export default function JockBoList({ jockBo }: Props) {
   // 세의 시작과 끝 값
   const [saeStartValue, setSaeStartValue] = useState<number>(0);
   const [saeLastValue, setSaeLastValue] = useState<number>(0);
@@ -35,9 +35,7 @@ export default function JockBoList({ totalJockBo }: Props) {
 
   // 족보 생성은 한 번만 되도록
   useEffect(() => {
-    setJockBoComponent(
-      <Xwrapper>{JockBoTreeRecur(0, totalJockBo, '-1')}</Xwrapper>,
-    );
+    setJockBoComponent(<Xwrapper>{JockBoTreeRecur(0, jockBo, '-1')}</Xwrapper>);
   }, []);
 
   // 족보 생성

@@ -1,10 +1,11 @@
 import { Stack } from '@mui/material';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { JockBoTreeItemInfo } from '../store/types';
 import styled from 'styled-components';
 import Xarrow, { Xwrapper } from 'react-xarrows';
 import _ from 'lodash';
 import CustomContainer from './CustomContainer';
+import palette from '../utils/palette';
 
 interface Props {
   jockBo: JockBoTreeItemInfo[];
@@ -16,14 +17,17 @@ const JockBoItem = styled.div`
   align-items: center;
   width: 5rem;
   height: 2rem;
-  background: black;
+  background: ${palette.brown};
   margin: 0.5rem;
   padding: 0.5rem;
   color: white;
+  box-shadow: 3px 3px 9px 3px ${palette.darkBrown};
+  border-radius: 10%;
 `;
 
 const SaeItem = styled(JockBoItem)`
   width: 3rem;
+  background: ${palette.brown2};
 `;
 
 export default function JockBoList({ jockBo }: Props) {
@@ -70,7 +74,7 @@ export default function JockBoList({ jockBo }: Props) {
                     showHead={false}
                     start={`${item._id}`}
                     end={sibling}
-                    lineColor={'black'}
+                    lineColor={palette.darkBrown}
                   />
                 )}
               </Stack>
@@ -82,7 +86,7 @@ export default function JockBoList({ jockBo }: Props) {
               showHead={false}
               start={`${items[0]._id}`}
               end={prv}
-              lineColor={'black'}
+              lineColor={palette.darkBrown}
             />
           )}
           <div />

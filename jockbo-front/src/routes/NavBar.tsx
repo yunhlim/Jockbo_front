@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import palette from '../utils/palette';
 
 const NavBarWrapper = styled.header`
   height: 90px;
@@ -18,7 +19,7 @@ const NavLinkWrapper = styled(NavLink)`
   }
   font-weight: 1000;
   &.active {
-    color: brown;
+    color: ${palette.darkBrown};
   }
 `;
 

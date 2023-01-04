@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { searchDataInfo } from '../store/types';
+import palette from '../utils/palette';
 import CustomContainer from './CustomContainer';
 
 const TextFieldsWrapper = styled(Box)`
@@ -12,6 +13,11 @@ const TextFieldsWrapper = styled(Box)`
   noValidate;
   component: form;
 `;
+
+interface ButtonStyleType {
+  color: string;
+  backgroundColor: string;
+}
 
 export default function SearchForm() {
   const navigate = useNavigate();
@@ -101,15 +107,25 @@ export default function SearchForm() {
       <Box
         sx={{
           '& > :not(style)': { m: 1, width: '25ch' },
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginY: '15px',
         }}
       >
-        <Button variant="contained" onClick={searchHandler}>
+        <Button
+          variant="contained"
+          onClick={searchHandler}
+          sx={{
+            backgroundColor: palette.green,
+            ':hover': { bgcolor: 'green' },
+          }}
+        >
           검색
         </Button>
         <Button
           variant="contained"
-          color="warning"
           onClick={() => setSearchData({})}
+          sx={{ background: palette.purple, ':hover': { bgcolor: 'purple' } }}
         >
           초기화
         </Button>

@@ -1,47 +1,70 @@
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { JockBoItemInfo } from '../store/types';
+import styled from 'styled-components';
+import palette from '../utils/palette';
 
 interface Props {
   searchItems: JockBoItemInfo[];
 }
+const StyledTableCell = styled(TableCell)(() => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: palette.lightBrown,
+    fontSize: 16,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(() => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: palette.darkBeige,
+  },
+  '&:nth-of-type(even)': {
+    backgroundColor: palette.beige,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
 export default function SearchList({ searchItems }: Props) {
-  console.log(searchItems);
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }} stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>이름</TableCell>
-            <TableCell align="right">세(世)</TableCell>
-            <TableCell align="right">부명</TableCell>
-            <TableCell align="right">조부명</TableCell>
-            <TableCell align="right">자명</TableCell>
+            <StyledTableCell>이름</StyledTableCell>
+            <StyledTableCell align="right">세(世)</StyledTableCell>
+            <StyledTableCell align="right">부명</StyledTableCell>
+            <StyledTableCell align="right">조부명</StyledTableCell>
+            <StyledTableCell align="right">자명</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {searchItems.map((searchItem) => (
-            <TableRow
-              key={searchItem._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
+            <StyledTableRow key={searchItem._id} hover>
+              <StyledTableCell component="th" scope="row">
                 {searchItem.myName} ({searchItem.myNamechi})
-              </TableCell>
-              <TableCell align="right">{searchItem.mySae}</TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">
+                {searchItem.mySae}
+              </StyledTableCell>
+              <StyledTableCell align="right">
                 {searchItem.father.myName} ({searchItem.father.myNamechi})
-              </TableCell>
-              <TableCell align="right">
+              </StyledTableCell>
+              <StyledTableCell align="right">
                 {searchItem.father.myName} ({searchItem.grandPa.myNamechi})
-              </TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
+              </StyledTableCell>
+              <StyledTableCell align="right"></StyledTableCell>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>

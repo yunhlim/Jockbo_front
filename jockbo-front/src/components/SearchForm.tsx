@@ -53,7 +53,7 @@ export default function SearchForm() {
   const searchHandler = () => {
     if (Object.values(searchData).length > 0) {
       navigate({
-        pathname: '/search',
+        pathname: '/',
         search: `?${createSearchParams(searchData)}`,
       });
     } else {

@@ -196,7 +196,7 @@ app.get("/detail/:_id", function (r, a) {
 
 
 //id 받아서 위아래로 2세씩 해서 프랙탈 띄워주는 api
-app.get("/5sae/:_id", async function (r, a) {
+app.get("/5sae/:_id", async function (r, answer) {
   let{_id} = r.params;
   var z = await db.collection("post")
     .find({_id : _id})
@@ -222,12 +222,9 @@ app.get("/5sae/:_id", async function (r, a) {
           myNamechi: oriArray[a].myNamechi,
           children: [],
         };
-        upgArray.push(b); //업글배열 만들기
-          //최대세와 최소세 구하기 (+- 2세까지 없을 경우 안전장치)
+        upgArray.push(b);
       }
-
       var len = upgArray.length;
-      //--------
       for (var tmp = minSae+5; tmp >= minSae; tmp--) {
         console.log(tmp + " 세에 대한 작업=============");
         for (i = 0; i < len; i++) {
@@ -250,7 +247,6 @@ app.get("/5sae/:_id", async function (r, a) {
           }
         }
       }
-      //--------c
-      ans.send(upgArray);
+      answer.send(upgArray);
     });
 });

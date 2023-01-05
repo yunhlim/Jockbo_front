@@ -204,7 +204,6 @@ app.get("/5sae/:_id", async function (r, a) {
 
     console.log("id조회 끝~~~~~@@@@@ await done")
 
-    var maxSae = z[0].mySae +2;
     var minSae = z[0].mySae -2;
     if(minSae<1)minSae=0;
 
@@ -229,7 +228,7 @@ app.get("/5sae/:_id", async function (r, a) {
 
       var len = upgArray.length;
       //--------
-      for (var tmp = maxSae; tmp >= minSae; tmp--) {
+      for (var tmp = minSae+5; tmp >= minSae; tmp--) {
         console.log(tmp + " 세에 대한 작업=============");
         for (i = 0; i < len; i++) {
           if (upgArray[i].mySae == tmp) {

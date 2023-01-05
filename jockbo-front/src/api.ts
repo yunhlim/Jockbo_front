@@ -25,3 +25,19 @@ export const jockBoSearchFetchApi = async (query: string) => {
   });
   return response.data;
 };
+
+export const jockBoDetailFetchApi = async (id: string) => {
+  const response = await axios({
+    url: `${baseUrl}/detail/${id}`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
+export const jockBo5saeFetchApi = async (id: string) => {
+  const response = await axios({
+    url: `${baseUrl}/5sae/${id}`,
+    method: 'GET',
+  });
+  return response.data;
+};

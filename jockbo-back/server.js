@@ -112,33 +112,28 @@ app.get("/all", function (req, ans) {
     });
 });
 
-app.get("/search", async function (r, a) {
+app.get("/search", async function (r, a) {//2023-01-05 slu Park & lim 비동기 및 동기로 검색결과 찾아줌
   if (r.fatherName || r.grandpaName) {
     a.send("조부 및 부 검색 기능 점검중");
     return;
   }
   db.collection("post")
     .find(r.query)
-    .toArray(async (e, items) => {
-      console.log("db응답@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-      console.log(items);
-
+    .toArray(async (e, dbanswer) => {
       var updarray = [];
 
-      for (let item of items) {
+      for (i in dbanswer) {
         var ufo;
         var ugo;
         const r = await db
           .collection("post")
-          .find({ _id: item.ancUID })
+          .find({ _id: dbanswer[i].ancUID })
           .toArray();
         ufo = r[0];
-
         const r2 = await db
           .collection("post")
           .find({ _id: ufo.ancUID })
           .toArray();
-
         ugo = r2[0];
         var uf = {
           _id: ufo._id,
@@ -153,30 +148,28 @@ app.get("/search", async function (r, a) {
         };
 
         var u = {
-          _id: item._id,
-          mySae: item.mySae,
-          myName: item.myName,
-          myNamechi: item.myNamechi,
+          _id: dbanswer[i]._id,
+          mySae: dbanswer[i].mySae,
+          myName: dbanswer[i].myName,
+          myNamechi: dbanswer[i].myNamechi,
           father: uf,
           grandPa: ug,
         };
         updarray.push(u);
       }
-      console.log("#");
-      console.log(updarray);
-
-      // 전송
       a.send(updarray);
     });
 });
+//id 로 자명 찾아주는 api (보류)
+//id 받아서 위아래로 2세씩 해서 프랙탈 띄워주는 api
 
-[
-  {
-    _id: "~",
-    mySae: "~",
-    myName: "~",
-    myNamechi: "~",
-    father: { _id: "~", myName: "~", myNamechi: "~" },
-    grandPa: { _id: "~", myName: "~", myNamechi: "~" },
-  },
-];
+
+//id 로 객체 모든정보 띄워주는 api - id만주면됨
+app.get("/detail", function (r, a) {
+  db.collection("post")
+    .find({_id : r.query._id})
+    .toArray(function (e, r) {
+      console.log(r);
+      a.send(r);
+    });
+});

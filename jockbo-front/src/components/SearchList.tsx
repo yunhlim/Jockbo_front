@@ -16,11 +16,12 @@ import { jockBoDetailFetchApi } from '../api';
 
 interface Props {
   searchItems: JockBoItemInfo[];
+  setGyeBoId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: palette.lightBrown,
+    background: `linear-gradient(to bottom, ${palette.lightBrown}, white, ${palette.lightBrown})`,
     fontSize: 16,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -30,10 +31,10 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const StyledTableRow = styled(TableRow)(() => ({
   '&:nth-of-type(odd)': {
-    backgroundColor: palette.darkBeige,
+    backgroundColor: palette.beige,
   },
   '&:nth-of-type(even)': {
-    backgroundColor: palette.beige,
+    backgroundColor: palette.darkBeige,
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -53,7 +54,7 @@ const ModalStyle = {
   p: 4,
 };
 
-export default function SearchList({ searchItems }: Props) {
+export default function SearchList({ searchItems, setGyeBoId }: Props) {
   const [open, setOpen] = useState(false);
   const [userEtc, setUserEtc] = useState('');
 
@@ -68,46 +69,50 @@ export default function SearchList({ searchItems }: Props) {
     });
   };
 
+  const userClickHandler = (id: string) => {
+    setGyeBoId(id);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>이름</StyledTableCell>
-            <StyledTableCell align="right">세(世)</StyledTableCell>
-            <StyledTableCell align="right">부명</StyledTableCell>
-            <StyledTableCell align="right">조부명</StyledTableCell>
-            <StyledTableCell align="right">자명</StyledTableCell>
-            <StyledTableCell align="right">상세정보</StyledTableCell>
+            <StyledTableCell align="center">이름</StyledTableCell>
+            <StyledTableCell align="center">세(世)</StyledTableCell>
+            <StyledTableCell align="center">부명</StyledTableCell>
+            <StyledTableCell align="center">조부명</StyledTableCell>
+            <StyledTableCell align="center">자명</StyledTableCell>
+            <StyledTableCell align="center">상세정보</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {searchItems.map((searchItem) => (
-            <StyledTableRow key={searchItem._id} hover>
-              <StyledTableCell component="th" scope="row">
+            <StyledTableRow
+              key={searchItem._id}
+              hover
+              onClick={() => userClickHandler(searchItem._id)}
+            >
+              <StyledTableCell align="center" component="th" scope="row">
                 {searchItem.myName} ({searchItem.myNamechi})
               </StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">
                 {searchItem.mySae}
               </StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">
                 {searchItem.father.myName} ({searchItem.father.myNamechi})
               </StyledTableCell>
-              <StyledTableCell align="right">
+              <StyledTableCell align="center">
                 {searchItem.grandPa.myName} ({searchItem.grandPa.myNamechi})
               </StyledTableCell>
-              <StyledTableCell align="right"></StyledTableCell>
-              <StyledTableCell align="right">
-                <button
+              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                <FontAwesomeIcon
+                  icon={faAddressCard}
+                  color={palette.darkBrown}
+                  size={'2x'}
                   onClick={() => userDetailClickHandler(searchItem._id)}
-                  style={{ border: 0, outline: 0 }}
-                >
-                  <FontAwesomeIcon
-                    icon={faAddressCard}
-                    color={palette.darkBrown}
-                    size={'2x'}
-                  />
-                </button>
+                />
               </StyledTableCell>
             </StyledTableRow>
           ))}

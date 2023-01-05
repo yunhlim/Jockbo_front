@@ -162,12 +162,57 @@ app.get("/search", async function (r, a) {//2023-01-05 slu Park & lim 비동기 
 });
 //id 로 자명 찾아주는 api (보류)
 //id 받아서 위아래로 2세씩 해서 프랙탈 띄워주는 api
+app.get("/search", async function (r, a) {//2023-01-05 slu Park 위로2세 찾은다음 그로부터 5세 프렉탈
+  db.collection("post")
+    .find(r.query)
+    .toArray(async (e, dbanswer) => {
+      var updarray = [];
+
+      for (i in dbanswer) {
+        var ufo;
+        var ugo;
+        const r = await db
+          .collection("post")
+          .find({ _id: dbanswer[i].ancUID })
+          .toArray();
+        ufo = r[0];
+        const r2 = await db
+          .collection("post")
+          .find({ _id: ufo.ancUID })
+          .toArray();
+        ugo = r2[0];
+        var uf = {
+          _id: ufo._id,
+          myName: ufo.myName,
+          myNamechi: ufo.myNamechi,
+        };
+
+        var ug = {
+          _id: ugo._id,
+          myName: ugo.myName,
+          myNamechi: ugo.myNamechi,
+        };
+
+        var u = {
+          _id: dbanswer[i]._id,
+          mySae: dbanswer[i].mySae,
+          myName: dbanswer[i].myName,
+          myNamechi: dbanswer[i].myNamechi,
+          father: uf,
+          grandPa: ug,
+        };
+        updarray.push(u);
+      }
+      a.send(updarray);
+    });
+});
 
 
 //id 로 객체 모든정보 띄워주는 api - id만주면됨
-app.get("/detail", function (r, a) {
+app.get("/detail/:_id", function (r, a) {
+  let{_id} = r.params;
   db.collection("post")
-    .find({_id : r.query._id})
+    .find({_id : _id})
     .toArray(function (e, r) {
       console.log(r);
       a.send(r);

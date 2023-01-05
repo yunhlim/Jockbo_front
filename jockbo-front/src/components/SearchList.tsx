@@ -61,7 +61,7 @@ export default function SearchList({ searchItems }: Props) {
                 {searchItem.father.myName} ({searchItem.father.myNamechi})
               </StyledTableCell>
               <StyledTableCell align="right">
-                {searchItem.father.myName} ({searchItem.grandPa.myNamechi})
+                {searchItem.grandPa.myName} ({searchItem.grandPa.myNamechi})
               </StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>
             </StyledTableRow>

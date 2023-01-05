@@ -112,56 +112,54 @@ app.get("/all", function (req, ans) {
     });
 });
 
-app.get("/search", async function (r, a) {//2023-01-05 slu Park & lim 비동기 및 동기로 검색결과 찾아줌
+app.get("/search", async function (r, a) {
+  //2023-01-05 slu Park & lim 비동기 및 동기로 검색결과 찾아줌
   if (r.fatherName || r.grandpaName) {
     a.send("조부 및 부 검색 기능 점검중");
     return;
   }
   db.collection("post")
     .find(r.query)
-    .toArray(async (e, dbanswer) => {
+    .toArray(async (e, dbItems) => {
       var updarray = [];
 
-      for (i in dbanswer) {
+      for (let dbItem of dbItems) {
         var ufo;
         var ugo;
 
         const r = await db
           .collection("post")
-          .find({ _id: dbanswer[i].ancUID })
+          .find({ _id: dbItem.ancUID })
           .toArray();
         ufo = r[0];
 
-        if(ufo==null){
+        if (ufo == null) {
           var uf = {
             _id: "-",
             myName: "-",
             myNamechi: "-",
           };
-        }
-        else{
-        const r2 = await db
-          .collection("post")
-          .find({ _id: ufo.ancUID })
-          .toArray();
-        ugo = r2[0];
-        
-        
-        var uf = {
-          _id: ufo._id,
-          myName: ufo.myName,
-          myNamechi: ufo.myNamechi,
-        };}
+        } else {
+          const r2 = await db
+            .collection("post")
+            .find({ _id: ufo.ancUID })
+            .toArray();
+          ugo = r2[0];
 
-        if(ugo==null){
+          var uf = {
+            _id: ufo._id,
+            myName: ufo.myName,
+            myNamechi: ufo.myNamechi,
+          };
+        }
+
+        if (ugo == null) {
           var ug = {
-            _id:"-",
+            _id: "-",
             myName: "-",
             myNamechi: "-",
           };
-  
-        }
-        else{
+        } else {
           var ug = {
             _id: ugo._id,
             myName: ugo.myName,
@@ -169,10 +167,10 @@ app.get("/search", async function (r, a) {//2023-01-05 slu Park & lim 비동기 
           };
         }
         var u = {
-          _id: dbanswer[i]._id,
-          mySae: dbanswer[i].mySae,
-          myName: dbanswer[i].myName,
-          myNamechi: dbanswer[i].myNamechi,
+          _id: dbItem._id,
+          mySae: dbItem.mySae,
+          myName: dbItem.myName,
+          myNamechi: dbItem.myNamechi,
           father: uf,
           grandPa: ug,
         };
@@ -185,34 +183,31 @@ app.get("/search", async function (r, a) {//2023-01-05 slu Park & lim 비동기 
 
 //id 로 객체 모든정보 띄워주는 api - id만주면됨
 app.get("/detail/:_id", function (r, a) {
-  let{_id} = r.params;
+  let { _id } = r.params;
   db.collection("post")
-    .find({_id : _id})
+    .find({ _id: _id })
     .toArray(function (e, r) {
       console.log(r);
       a.send(r);
     });
 });
 
-
 //id 받아서 위아래로 2세씩 해서 프랙탈 띄워주는 api
 app.get("/5sae/:_id", async function (r, answer) {
-  let{_id} = r.params;
-  var z = await db.collection("post")
-    .find({_id : _id})
-    .toArray();
+  let { _id } = r.params;
+  var z = await db.collection("post").find({ _id: _id }).toArray();
 
-    console.log("id조회 끝~~~~~@@@@@ await done")
+  console.log("id조회 끝~~~~~@@@@@ await done");
 
-    var minSae = z[0].mySae -2;
-    if(minSae<1)minSae=0;
+  var minSae = z[0].mySae - 2;
+  if (minSae < 1) minSae = 0;
 
-    db.collection("post")
+  db.collection("post")
     .find()
     .toArray(function (e, r) {
       var oriArray = r;
       var upgArray = [];
-    
+
       for (var a in oriArray) {
         var b = {
           _id: oriArray[a]._id,
@@ -225,7 +220,7 @@ app.get("/5sae/:_id", async function (r, answer) {
         upgArray.push(b);
       }
       var len = upgArray.length;
-      for (var tmp = minSae+5; tmp >= minSae; tmp--) {
+      for (var tmp = minSae + 5; tmp >= minSae; tmp--) {
         console.log(tmp + " 세에 대한 작업=============");
         for (i = 0; i < len; i++) {
           if (upgArray[i].mySae == tmp) {

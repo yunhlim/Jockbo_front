@@ -48,9 +48,7 @@ export default function SearchPage() {
         </CustomContainer>
       </Stack>
       <CustomContainer>
-        {searchItems.length > 0 && (
-          <SearchList searchItems={searchItems} setGyeBoId={setGyeBoId} />
-        )}
+        <SearchList searchItems={searchItems} setGyeBoId={setGyeBoId} />
       </CustomContainer>
     </Stack>
   );

@@ -41,6 +41,7 @@ const StyledTableRow = styled(TableRow)(() => ({
   '&:last-child td, &:last-child th': {
     border: 0,
   },
+  cursor: 'pointer',
 }));
 
 const ModalStyle = {
@@ -55,10 +56,18 @@ const ModalStyle = {
   p: 4,
 };
 
+const UserDetailIcon = styled(FontAwesomeIcon)`
+  &:hover {
+    color: ${palette.darkGreen};
+    transition: 0.5s;
+  }
+  cursor: pointer;
+`;
+
 export default function SearchList({ searchItems, setGyeBoId }: Props) {
   const [open, setOpen] = useState(false);
   const [userEtc, setUserEtc] = useState('');
-
+  console.log(searchItems.length);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -88,37 +97,50 @@ export default function SearchList({ searchItems, setGyeBoId }: Props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {searchItems.map((searchItem) => (
-            <StyledTableRow
-              key={searchItem._id}
-              hover
-              onClick={() => userClickHandler(searchItem._id)}
-            >
-              <StyledTableCell align="center" component="th" scope="row">
-                {searchItem.myName} ({searchItem.myNamechi})
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {searchItem.mySae}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {searchItem.father.myName} ({searchItem.father.myNamechi})
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {searchItem.grandPa.myName} ({searchItem.grandPa.myNamechi})
-              </StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
-              <StyledTableCell align="center">
-                <FontAwesomeIcon
-                  icon={faAddressCard}
-                  color={palette.darkBrown}
-                  size={'2x'}
-                  onClick={() => userDetailClickHandler(searchItem._id)}
-                />
+          {searchItems.length > 0 ? (
+            searchItems.map((searchItem) => (
+              <StyledTableRow
+                key={searchItem._id}
+                hover
+                onClick={() => userClickHandler(searchItem._id)}
+              >
+                <StyledTableCell align="center" component="th" scope="row">
+                  {searchItem.myName} ({searchItem.myNamechi})
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {searchItem.mySae}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {searchItem.father.myName} ({searchItem.father.myNamechi})
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  {searchItem.grandPa.myName} ({searchItem.grandPa.myNamechi})
+                </StyledTableCell>
+                <StyledTableCell align="center"></StyledTableCell>
+                <StyledTableCell align="center">
+                  <UserDetailIcon
+                    icon={faAddressCard}
+                    color={palette.darkBrown}
+                    size={'2x'}
+                    onClick={() => userDetailClickHandler(searchItem._id)}
+                  />
+                </StyledTableCell>
+              </StyledTableRow>
+            ))
+          ) : (
+            <StyledTableRow>
+              <StyledTableCell
+                align="center"
+                colSpan={6}
+                sx={{ height: '100px' }}
+              >
+                조건에 맞는 자료가 없습니다.
               </StyledTableCell>
             </StyledTableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
+
       <Modal
         open={open}
         onClose={handleClose}

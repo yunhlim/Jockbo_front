@@ -9,6 +9,8 @@ import palette from '../utils/palette';
 
 interface Props {
   jockBo: JockBoTreeItemInfo[];
+  myId: string;
+  setGyeBoId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const JockBoItem = styled.div`
@@ -23,6 +25,12 @@ const JockBoItem = styled.div`
   color: white;
   box-shadow: 3px 3px 9px 3px ${palette.darkBrown};
   border-radius: 10%;
+
+  &:hover {
+    background: ${palette.darkBrown};
+    transition: 0.5s;
+  }
+  cursor: pointer;
 `;
 
 const SaeItem = styled(JockBoItem)`
@@ -30,7 +38,7 @@ const SaeItem = styled(JockBoItem)`
   background: ${palette.brown2};
 `;
 
-export default function JockBoList({ jockBo }: Props) {
+export default function JockBoList({ jockBo, myId, setGyeBoId }: Props) {
   // 세의 시작과 끝 값
   const [saeStartValue, setSaeStartValue] = useState<number>(0);
   const [saeLastValue, setSaeLastValue] = useState<number>(0);
@@ -39,16 +47,19 @@ export default function JockBoList({ jockBo }: Props) {
 
   // 족보 생성은 한 번만 되도록
   useEffect(() => {
+    // 이전 형제 정보 저장
     setJockBoComponent(<Xwrapper>{JockBoTreeRecur(0, jockBo, '-1')}</Xwrapper>);
-  }, []);
+  }, [myId, jockBo]);
+
+  const userChangeClickHandler = (id: string) => {
+    setGyeBoId(id);
+  };
 
   // 족보 생성
   const JockBoTreeRecur = useCallback(
     (cur: number, items: JockBoTreeItemInfo[], prv: string) => {
-      // 이전 형제 정보 저장
       let sibling = '-1';
       let newSibling = '-1';
-
       // 세 시작과 끝 값 찾기(표의 왼쪽 칼럼을 정의하기 위함)
       if (cur === 0) {
         setSaeStartValue(Number(items[0].mySae));
@@ -63,9 +74,16 @@ export default function JockBoList({ jockBo }: Props) {
             newSibling = `${item._id}`;
             return (
               <Stack key={item._id}>
-                <JockBoItem id={`${item._id}`}>
+                <JockBoItem
+                  id={`${item._id}`}
+                  onClick={() => userChangeClickHandler(item._id)}
+                  style={
+                    item._id === myId ? { backgroundColor: palette.orange } : {}
+                  }
+                >
                   {item.myName} {item.myNamechi}
                 </JockBoItem>
+
                 {item.children!.length > 0 &&
                   JockBoTreeRecur(cur + 1, item.children!, `${item._id}`)}
                 {/* 형제 사이 연결 */}
@@ -93,7 +111,7 @@ export default function JockBoList({ jockBo }: Props) {
         </Stack>
       );
     },
-    [],
+    [myId],
   );
 
   return (

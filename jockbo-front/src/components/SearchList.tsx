@@ -23,6 +23,7 @@ const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     background: `linear-gradient(to bottom, ${palette.lightBrown}, white, ${palette.lightBrown})`,
     fontSize: 16,
+    fontWeight: 'bold',
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,

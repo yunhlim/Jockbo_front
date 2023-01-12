@@ -38,7 +38,13 @@ export default function SearchPage() {
         <SearchForm />
         <CustomContainer>
           <h3>계보 보기</h3>
-          {gyeBoTree.length > 0 && <JockBoList jockBo={gyeBoTree} />}
+          {gyeBoTree.length > 0 && (
+            <JockBoList
+              jockBo={gyeBoTree}
+              myId={gyeBoId}
+              setGyeBoId={setGyeBoId}
+            />
+          )}
         </CustomContainer>
       </Stack>
       <CustomContainer>
